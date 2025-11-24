@@ -23,7 +23,7 @@ public class Main {
             // Logging de desarrollo
             config.bundledPlugins.enableDevLogging();
 
-        }).start(7070); // Puerto 7070
+        }).start("0.0.0.0", 7070); // Puerto 7070
 
         // ═══════════════════════════════════════════════════════════════
         // LOG DE INICIO
@@ -90,13 +90,13 @@ public class Main {
         // MANEJO DE ERRORES
         // ═══════════════════════════════════════════════════════════════
 
-       // app.error(404, ctx -> {
+        // app.error(404, ctx -> {
         //    ctx.json(Map.of(
-         //           "success", false,
-         //           "error", "Endpoint no encontrado",
-         //           "path", ctx.path()
-          //  ));
-      //  });
+        //           "success", false,
+        //           "error", "Endpoint no encontrado",
+        //           "path", ctx.path()
+        //  ));
+        //  });
 
         app.error(500, ctx -> {
             ctx.json(Map.of(
