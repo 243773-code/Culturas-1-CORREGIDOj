@@ -9,11 +9,9 @@ public class ProductoTalla {
     private Integer cantidad;
     private LocalDateTime updatedAt;
 
-    // Constructor vacío
     public ProductoTalla() {
     }
 
-    // Constructor con todos los parámetros
     public ProductoTalla(Integer productoTallaId, Integer productoId, Integer tallaId,
                          Integer cantidad, LocalDateTime updatedAt) {
         this.productoTallaId = productoTallaId;
@@ -23,15 +21,6 @@ public class ProductoTalla {
         this.updatedAt = updatedAt;
     }
 
-    // Constructor sin ID (para inserciones)
-    public ProductoTalla(Integer productoId, Integer tallaId, Integer cantidad) {
-        this.productoId = productoId;
-        this.tallaId = tallaId;
-        this.cantidad = cantidad;
-    }
-
-
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public Integer getProductoTallaId() {
         return productoTallaId;
     }
@@ -44,7 +33,6 @@ public class ProductoTalla {
         return productoId;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void setProductoId(Integer productoId) {
         this.productoId = productoId;
     }
@@ -57,7 +45,6 @@ public class ProductoTalla {
         this.tallaId = tallaId;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public Integer getCantidad() {
         return cantidad;
     }
@@ -70,39 +57,7 @@ public class ProductoTalla {
         return updatedAt;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    @Override
-    public String toString() {
-        return "ProductoTalla{" +
-                "productoTallaId=" + productoTallaId +
-                ", productoId=" + productoId +
-                ", tallaId=" + tallaId +
-                ", cantidad=" + cantidad +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
-
-    @SuppressWarnings("unused")
-    public void setCreatedAt(LocalDateTime createdAt) {
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductoTalla that = (ProductoTalla) o;
-        return productoTallaId != null && productoTallaId.equals(that.productoTallaId);
-    }
-
-
-    @Override
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
-    public int hashCode() {
-        return productoTallaId != null ? productoTallaId.hashCode() : 0;
-    }
-
 }

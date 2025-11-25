@@ -18,82 +18,207 @@ public class ProductoTallaController {
         this.gson = new Gson();
     }
 
-    public void getAllProductoTallas(Context ctx) {
+    public void getAll(Context ctx) {
         try {
-            List<ProductoTalla> items = productoTallaService.getAllProductoTallas();
-            ctx.status(200).json(Map.of("success", true, "data", items, "count", items.size()));
+            List<ProductoTalla> list = productoTallaService.getAll();
+            ctx.status(200).json(Map.of(
+                    "success", true,
+                    "data", list,
+                    "count", list.size()
+            ));
         } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al obtener producto_tallas: " + e.getMessage()
+            ));
         }
     }
 
-    public void getProductoTallaById(Context ctx) {
+    public void getById(Context ctx) {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
-            ProductoTalla item = productoTallaService.getProductoTallaById(id);
-            ctx.status(200).json(Map.of("success", true, "data", item));
+            ProductoTalla pt = productoTallaService.getById(id);
+            ctx.status(200).json(Map.of(
+                    "success", true,
+                    "data", pt
+            ));
         } catch (NumberFormatException e) {
-            ctx.status(400).json(Map.of("success", false, "error", "ID inválido"));
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", "ID inválido"
+            ));
         } catch (RuntimeException e) {
-            ctx.status(404).json(Map.of("success", false, "error", e.getMessage()));
+            ctx.status(404).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
         } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al obtener producto_talla: " + e.getMessage()
+            ));
         }
     }
 
-    public void getProductoTallasByProductoId(Context ctx) {
+    public void create(Context ctx) {
         try {
-            int productoId = Integer.parseInt(ctx.pathParam("productoId"));
-            List<ProductoTalla> items = productoTallaService.getProductoTallasByProductoId(productoId);
-            ctx.status(200).json(Map.of("success", true, "data", items, "count", items.size()));
-        } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
-        }
-    }
+            ProductoTalla pt = ctx.bodyAsClass(ProductoTalla.class);
+            ProductoTalla created = productoTallaService.create(pt);
 
-    public void createProductoTalla(Context ctx) {
-        try {
-            ProductoTalla item = ctx.bodyAsClass(ProductoTalla.class);
-            ProductoTalla created = productoTallaService.createProductoTalla(item);
-            ctx.status(201).json(Map.of("success", true, "message", "Creado exitosamente", "data", created));
+            ctx.status(201).json(Map.of(
+                    "success", true,
+                    "message", "Producto_talla creado correctamente",
+                    "data", created
+            ));
         } catch (IllegalArgumentException e) {
-            ctx.status(400).json(Map.of("success", false, "error", e.getMessage()));
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
         } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al crear producto_talla: " + e.getMessage()
+            ));
         }
     }
 
-    public void updateProductoTalla(Context ctx) {
+    public void update(Context ctx) {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
-            ProductoTalla item = ctx.bodyAsClass(ProductoTalla.class);
-            ProductoTalla updated = productoTallaService.updateProductoTalla(id, item);
-            ctx.status(200).json(Map.of("success", true, "message", "Actualizado exitosamente", "data", updated));
+            ProductoTalla pt = ctx.bodyAsClass(ProductoTalla.class);
+            ProductoTalla updated = productoTallaService.update(id, pt);
+
+            ctx.status(200).json(Map.of(
+                    "success", true,
+                    "message", "Producto_talla actualizado correctamente",
+                    "data", updated
+            ));
+        } catch (NumberFormatException e) {
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", "ID inválido"
+            ));
+        } catch (IllegalArgumentException e) {
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
         } catch (RuntimeException e) {
-            ctx.status(404).json(Map.of("success", false, "error", e.getMessage()));
+            ctx.status(404).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
         } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al actualizar producto_talla: " + e.getMessage()
+            ));
         }
     }
 
-    public void deleteProductoTalla(Context ctx) {
+    public void delete(Context ctx) {
         try {
             int id = Integer.parseInt(ctx.pathParam("id"));
-            boolean deleted = productoTallaService.deleteProductoTalla(id);
+            boolean deleted = productoTallaService.delete(id);
+
             if (deleted) {
-                ctx.status(200).json(Map.of("success", true, "message", "Eliminado exitosamente"));
+                ctx.status(200).json(Map.of(
+                        "success", true,
+                        "message", "Producto_talla eliminado correctamente"
+                ));
+            } else {
+                ctx.status(404).json(Map.of(
+                        "success", false,
+                        "error", "No se pudo eliminar el registro"
+                ));
             }
+        } catch (NumberFormatException e) {
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", "ID inválido"
+            ));
+        } catch (RuntimeException e) {
+            ctx.status(404).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
         } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al eliminar producto_talla: " + e.getMessage()
+            ));
         }
     }
 
-    public void countProductoTallas(Context ctx) {
+    public void count(Context ctx) {
         try {
-            long count = productoTallaService.countProductoTallas();
-            ctx.status(200).json(Map.of("success", true, "count", count));
+            long count = productoTallaService.count();
+            ctx.status(200).json(Map.of(
+                    "success", true,
+                    "count", count
+            ));
         } catch (Exception e) {
-            ctx.status(500).json(Map.of("success", false, "error", "Error: " + e.getMessage()));
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al contar producto_tallas: " + e.getMessage()
+            ));
+        }
+    }
+
+    // 🔥 PATCH SOLO CANTIDAD
+    public void updateCantidad(Context ctx) {
+        try {
+            int id = Integer.parseInt(ctx.pathParam("id"));
+
+            // body esperado: { "cantidad": 25 }
+            Map<String, Object> body = ctx.bodyAsClass(Map.class);
+
+            if (!body.containsKey("cantidad")) {
+                ctx.status(400).json(Map.of(
+                        "success", false,
+                        "error", "Falta el campo 'cantidad'"
+                ));
+                return;
+            }
+
+            // Gson mapea números a Double por defecto
+            int cantidad = ((Number) body.get("cantidad")).intValue();
+
+            boolean updated = productoTallaService.updateCantidad(id, cantidad);
+
+            if (updated) {
+                ctx.status(200).json(Map.of(
+                        "success", true,
+                        "message", "Cantidad actualizada correctamente"
+                ));
+            } else {
+                ctx.status(404).json(Map.of(
+                        "success", false,
+                        "error", "No se encontró producto_talla con ese ID"
+                ));
+            }
+
+        } catch (NumberFormatException e) {
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", "ID inválido"
+            ));
+        } catch (IllegalArgumentException e) {
+            ctx.status(400).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
+        } catch (RuntimeException e) {
+            ctx.status(404).json(Map.of(
+                    "success", false,
+                    "error", e.getMessage()
+            ));
+        } catch (Exception e) {
+            ctx.status(500).json(Map.of(
+                    "success", false,
+                    "error", "Error al actualizar cantidad: " + e.getMessage()
+            ));
         }
     }
 }

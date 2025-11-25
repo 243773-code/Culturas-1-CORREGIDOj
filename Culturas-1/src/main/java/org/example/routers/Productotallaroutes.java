@@ -12,12 +12,12 @@ public class Productotallaroutes {
     }
 
     public void register(Javalin app) {
-        app.get("/api/producto-tallas", controller::getAllProductoTallas);
-        app.get("/api/producto-tallas/count", controller::countProductoTallas);
-        app.get("/api/producto-tallas/producto/{productoId}", controller::getProductoTallasByProductoId);
-        app.get("/api/producto-tallas/{id}", controller::getProductoTallaById);
-        app.post("/api/producto-tallas", controller::createProductoTalla);
-        app.put("/api/producto-tallas/{id}", controller::updateProductoTalla);
-        app.delete("/api/producto-tallas/{id}", controller::deleteProductoTalla);
+        app.get("/api/producto-tallas", controller::getAll);
+        app.get("/api/producto-tallas/count", controller::count);
+        app.get("/api/producto-tallas/{id}", controller::getById);
+        app.post("/api/producto-tallas", controller::create);
+        app.put("/api/producto-tallas/{id}", controller::update);
+        app.patch("/api/producto-tallas/{id}/cantidad", controller::updateCantidad); // 👈 PATCH
+        app.delete("/api/producto-tallas/{id}", controller::delete);
     }
 }

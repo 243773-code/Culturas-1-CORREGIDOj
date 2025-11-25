@@ -25,7 +25,7 @@ public class DatabaseConfig {
 
     // URL completa de conexión
     public static final String DB_URL = String.format(
-            "jdbc:mysql://52.22.74.214:3306/ECOMMERCE_CULTURAS",
+            "jdbc:mysql://%s:%s/%s?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC",
             DB_HOST, DB_PORT, DB_NAME
     );
 

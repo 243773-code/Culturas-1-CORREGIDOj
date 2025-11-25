@@ -19,14 +19,18 @@ public class Producto {
     private Integer puntoReorden;
     private LocalDateTime ultimaActualizacion;
 
+    // URL de la imagen
+    private String img_url;
+
     // Constructor vacío
     public Producto() {
     }
 
-    // Constructor con todos los parámetros
+    // Constructor con todos los parámetros (incluyendo img_url)
     public Producto(Integer productoId, Integer categoriaId, Integer estatusId, String nombre,
                     String descripcion, String sku, BigDecimal precioBase, LocalDateTime fechaCreacion,
-                    Integer stockTotal, Integer stockMinimo, Integer puntoReorden, LocalDateTime ultimaActualizacion) {
+                    Integer stockTotal, Integer stockMinimo, Integer puntoReorden,
+                    LocalDateTime ultimaActualizacion, String img_url) {
         this.productoId = productoId;
         this.categoriaId = categoriaId;
         this.estatusId = estatusId;
@@ -39,11 +43,13 @@ public class Producto {
         this.stockMinimo = stockMinimo;
         this.puntoReorden = puntoReorden;
         this.ultimaActualizacion = ultimaActualizacion;
+        this.img_url = img_url;
     }
 
-    // Constructor sin ID (para inserciones)
+    // Constructor sin ID (para inserciones) incluyendo img_url
     public Producto(Integer categoriaId, Integer estatusId, String nombre, String descripcion,
-                    String sku, BigDecimal precioBase, Integer stockTotal, Integer stockMinimo, Integer puntoReorden) {
+                    String sku, BigDecimal precioBase, Integer stockTotal,
+                    Integer stockMinimo, Integer puntoReorden, String img_url) {
         this.categoriaId = categoriaId;
         this.estatusId = estatusId;
         this.nombre = nombre;
@@ -53,9 +59,9 @@ public class Producto {
         this.stockTotal = stockTotal;
         this.stockMinimo = stockMinimo;
         this.puntoReorden = puntoReorden;
+        this.img_url = img_url;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public Integer getProductoId() {
         return productoId;
     }
@@ -68,7 +74,6 @@ public class Producto {
         return categoriaId;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void setCategoriaId(Integer categoriaId) {
         this.categoriaId = categoriaId;
     }
@@ -81,7 +86,6 @@ public class Producto {
         this.estatusId = estatusId;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public String getNombre() {
         return nombre;
     }
@@ -94,7 +98,6 @@ public class Producto {
         return descripcion;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
@@ -107,7 +110,6 @@ public class Producto {
         this.sku = sku;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public BigDecimal getPrecioBase() {
         return precioBase;
     }
@@ -120,7 +122,6 @@ public class Producto {
         return fechaCreacion;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
@@ -133,7 +134,6 @@ public class Producto {
         this.stockTotal = stockTotal;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public Integer getStockMinimo() {
         return stockMinimo;
     }
@@ -146,7 +146,6 @@ public class Producto {
         return puntoReorden;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public void setPuntoReorden(Integer puntoReorden) {
         this.puntoReorden = puntoReorden;
     }
@@ -159,8 +158,19 @@ public class Producto {
         this.ultimaActualizacion = ultimaActualizacion;
     }
 
+    public String getImg_url() {
+        return img_url;
+    }
+
+    public void setImg_url(String img_url) {
+        this.img_url = img_url;
+    }
+
+    public Number getPrecio() {
+        return precioBase;
+    }
+
     @Override
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public String toString() {
         return "Producto{" +
                 "productoId=" + productoId +
@@ -175,12 +185,8 @@ public class Producto {
                 ", stockMinimo=" + stockMinimo +
                 ", puntoReorden=" + puntoReorden +
                 ", ultimaActualizacion=" + ultimaActualizacion +
+                ", img_url='" + img_url + '\'' +
                 '}';
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
-    public Number getPrecio() {
-        return precioBase;
     }
 
     @Override
@@ -191,11 +197,8 @@ public class Producto {
         return productoId != null && productoId.equals(that.productoId);
     }
 
-
     @Override
-    @SuppressWarnings({"unchecked", "rawtypes", "unused"})
     public int hashCode() {
         return productoId != null ? productoId.hashCode() : 0;
     }
-
 }

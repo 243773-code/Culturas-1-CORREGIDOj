@@ -47,7 +47,7 @@ test {
 
 // 🧨 AQUÍ es donde se crea el JAR ejecutable con todas las dependencias
 tasks.named("shadowJar") {
-    // Nombre bonito del jar final
+    // Nombre  del jar final
     archiveBaseName.set("culturas-api")
     archiveClassifier.set("")   // sin "-all"
     archiveVersion.set("")      // sin "-1.0-SNAPSHOT"

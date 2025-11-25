@@ -3,7 +3,6 @@ package org.example.repositories;
 import org.example.config.DatabaseConfig;
 import org.example.models.Producto;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,7 +12,10 @@ public class ProductoRepository {
 
     public List<Producto> findAll() {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT producto_id, categoria_id, nombre, descripcion, sku, precio_base, estatus_id, fecha_creacion, stock_total, stock_minimo, punto_reorden, ultima_actualizacion FROM PRODUCTO";
+        String sql = "SELECT producto_id, categoria_id, estatus_id, nombre, descripcion, sku, " +
+                "precio_base, fecha_creacion, stock_total, stock_minimo, punto_reorden, " +
+                "ultima_actualizacion, img_url " +
+                "FROM PRODUCTO";
 
         try (Connection conn = DatabaseConfig.getConnection();
              Statement stmt = conn.createStatement();
@@ -31,7 +33,10 @@ public class ProductoRepository {
     }
 
     public Producto findById(int productoId) {
-        String sql = "SELECT producto_id, categoria_id, nombre, descripcion, sku, precio_base, estatus_id, fecha_creacion, stock_total, stock_minimo, punto_reorden, ultima_actualizacion FROM PRODUCTO WHERE producto_id = ?";
+        String sql = "SELECT producto_id, categoria_id, estatus_id, nombre, descripcion, sku, " +
+                "precio_base, fecha_creacion, stock_total, stock_minimo, punto_reorden, " +
+                "ultima_actualizacion, img_url " +
+                "FROM PRODUCTO WHERE producto_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -51,7 +56,10 @@ public class ProductoRepository {
     }
 
     public Producto findBySku(String sku) {
-        String sql = "SELECT producto_id, categoria_id, nombre, descripcion, sku, precio_base, estatus_id, fecha_creacion, stock_total, stock_minimo, punto_reorden, ultima_actualizacion FROM PRODUCTO WHERE sku = ?";
+        String sql = "SELECT producto_id, categoria_id, estatus_id, nombre, descripcion, sku, " +
+                "precio_base, fecha_creacion, stock_total, stock_minimo, punto_reorden, " +
+                "ultima_actualizacion, img_url " +
+                "FROM PRODUCTO WHERE sku = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -72,7 +80,10 @@ public class ProductoRepository {
 
     public List<Producto> findByCategoriaId(int categoriaId) {
         List<Producto> productos = new ArrayList<>();
-        String sql = "SELECT producto_id, categoria_id, nombre, descripcion, sku, precio_base, estatus_id, fecha_creacion, stock_total, stock_minimo, punto_reorden, ultima_actualizacion FROM PRODUCTO WHERE categoria_id = ?";
+        String sql = "SELECT producto_id, categoria_id, estatus_id, nombre, descripcion, sku, " +
+                "precio_base, fecha_creacion, stock_total, stock_minimo, punto_reorden, " +
+                "ultima_actualizacion, img_url " +
+                "FROM PRODUCTO WHERE categoria_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -92,22 +103,33 @@ public class ProductoRepository {
     }
 
     public Producto save(Producto producto) {
-        String sql = "INSERT INTO PRODUCTO (categoria_id, nombre, descripcion, sku, precio_base, estatus_id, fecha_creacion, stock_total, stock_minimo, punto_reorden, ultima_actualizacion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PRODUCTO (" +
+                "categoria_id, estatus_id, nombre, descripcion, sku, precio_base, " +
+                "fecha_creacion, stock_total, stock_minimo, punto_reorden, " +
+                "ultima_actualizacion, img_url" +
+                ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, producto.getCategoriaId());
-            pstmt.setString(2, producto.getNombre());
-            pstmt.setString(3, producto.getDescripcion());
-            pstmt.setString(4, producto.getSku());
-            pstmt.setBigDecimal(5, producto.getPrecioBase());
-            pstmt.setInt(6, producto.getEstatusId());
-            pstmt.setTimestamp(7, producto.getFechaCreacion() != null ? Timestamp.valueOf(producto.getFechaCreacion()) : Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setInt(2, producto.getEstatusId());
+            pstmt.setString(3, producto.getNombre());
+            pstmt.setString(4, producto.getDescripcion());
+            pstmt.setString(5, producto.getSku());
+            pstmt.setBigDecimal(6, producto.getPrecioBase());
+            pstmt.setTimestamp(7,
+                    producto.getFechaCreacion() != null
+                            ? Timestamp.valueOf(producto.getFechaCreacion())
+                            : Timestamp.valueOf(LocalDateTime.now()));
             pstmt.setInt(8, producto.getStockTotal());
             pstmt.setInt(9, producto.getStockMinimo());
             pstmt.setInt(10, producto.getPuntoReorden());
-            pstmt.setTimestamp(11, producto.getUltimaActualizacion() != null ? Timestamp.valueOf(producto.getUltimaActualizacion()) : Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setTimestamp(11,
+                    producto.getUltimaActualizacion() != null
+                            ? Timestamp.valueOf(producto.getUltimaActualizacion())
+                            : Timestamp.valueOf(LocalDateTime.now()));
+            pstmt.setString(12, producto.getImg_url());
 
             pstmt.executeUpdate();
 
@@ -125,22 +147,27 @@ public class ProductoRepository {
     }
 
     public Producto update(Producto producto) {
-        String sql = "UPDATE PRODUCTO SET categoria_id = ?, nombre = ?, descripcion = ?, sku = ?, precio_base = ?, estatus_id = ?, stock_total = ?, stock_minimo = ?, punto_reorden = ?, ultima_actualizacion = ? WHERE producto_id = ?";
+        String sql = "UPDATE PRODUCTO SET " +
+                "categoria_id = ?, estatus_id = ?, nombre = ?, descripcion = ?, sku = ?, " +
+                "precio_base = ?, stock_total = ?, stock_minimo = ?, punto_reorden = ?, " +
+                "ultima_actualizacion = ?, img_url = ? " +
+                "WHERE producto_id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, producto.getCategoriaId());
-            pstmt.setString(2, producto.getNombre());
-            pstmt.setString(3, producto.getDescripcion());
-            pstmt.setString(4, producto.getSku());
-            pstmt.setBigDecimal(5, producto.getPrecioBase());
-            pstmt.setInt(6, producto.getEstatusId());
+            pstmt.setInt(2, producto.getEstatusId());
+            pstmt.setString(3, producto.getNombre());
+            pstmt.setString(4, producto.getDescripcion());
+            pstmt.setString(5, producto.getSku());
+            pstmt.setBigDecimal(6, producto.getPrecioBase());
             pstmt.setInt(7, producto.getStockTotal());
             pstmt.setInt(8, producto.getStockMinimo());
             pstmt.setInt(9, producto.getPuntoReorden());
             pstmt.setTimestamp(10, Timestamp.valueOf(LocalDateTime.now()));
-            pstmt.setInt(11, producto.getProductoId());
+            pstmt.setString(11, producto.getImg_url());
+            pstmt.setInt(12, producto.getProductoId());
 
             pstmt.executeUpdate();
 
@@ -212,11 +239,16 @@ public class ProductoRepository {
                 rs.getString("descripcion"),
                 rs.getString("sku"),
                 rs.getBigDecimal("precio_base"),
-                rs.getTimestamp("fecha_creacion") != null ? rs.getTimestamp("fecha_creacion").toLocalDateTime() : null,
+                rs.getTimestamp("fecha_creacion") != null
+                        ? rs.getTimestamp("fecha_creacion").toLocalDateTime()
+                        : null,
                 rs.getInt("stock_total"),
                 rs.getInt("stock_minimo"),
                 rs.getInt("punto_reorden"),
-                rs.getTimestamp("ultima_actualizacion") != null ? rs.getTimestamp("ultima_actualizacion").toLocalDateTime() : null
+                rs.getTimestamp("ultima_actualizacion") != null
+                        ? rs.getTimestamp("ultima_actualizacion").toLocalDateTime()
+                        : null,
+                rs.getString("img_url")
         );
     }
 }
