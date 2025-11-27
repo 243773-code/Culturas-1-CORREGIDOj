@@ -3,7 +3,7 @@ package org.example.models;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class Producto {
+public class  Producto {
     private Integer productoId;
     private Integer categoriaId;
     private Integer estatusId;
